@@ -116,37 +116,36 @@ def wrangle_zillow():
         # Cache data
         properties_2017.to_csv('properties_2017.csv')
 
+        return properties_2017
 
-    # Dropping null values
-    houses = properties_2017.dropna(axis = 0, how ='any')
 
-    # Dropping a column
-    houses = houses.drop(['propertylandusetypeid'], axis = 1)
+    # # Dropping null values
+    # houses = properties_2017.dropna(axis = 0, how ='any')
 
-    # Renaming columns
-    cols_to_rename = {
-        'calculatedfinishedsquarefeet': 'indoor_sqft',
-        'taxvaluedollarcnt': 'tax_value',
-        'transactiondate': 'sale_date',
-        'bedroomcnt': 'bedrooms',
-        'bathroomcnt': 'bathrooms',
-        'taxamount': 'tax_amount',
-    }
+    # # Dropping a column
+    # houses = houses.drop(['propertylandusetypeid'], axis = 1)
 
-    houses = houses.rename(columns=cols_to_rename)
+    # # Renaming columns
+    # cols_to_rename = {
+    #     'calculatedfinishedsquarefeet': 'indoor_sqft',
+    #     'taxvaluedollarcnt': 'tax_value',
+    #     'transactiondate': 'sale_date',
+    #     'bedroomcnt': 'bedrooms',
+    #     'bathroomcnt': 'bathrooms',
+    # }
 
-    # Converting the following columns to int
-    houses['bedrooms'] = houses['bedrooms'].astype(int)
-    houses['indoor_sqft'] = houses['indoor_sqft'].astype(int)
-    houses['tax_value'] = houses['tax_value'].astype(int)
-    houses['yearbuilt'] = houses['yearbuilt'].astype(int)
-    houses['fips'] = houses['fips'].astype(int)
-    houses['sale_date'] = pd.to_datetime(houses['sale_date']).astype('int64')  
+    # houses = houses.rename(columns=cols_to_rename)
 
-    # Filtering the data through number of bedrooms
-    houses = houses[houses.bathrooms <= 7]
+    # # Converting the following columns to int
+    # houses['bedrooms'] = houses['bedrooms'].astype(int)
+    # houses['indoor_sqft'] = houses['indoor_sqft'].astype(int)
+    # houses['tax_value'] = houses['tax_value'].astype(int)
+    # houses['sale_date'] = pd.to_datetime(houses['sale_date']).astype('int64')  
 
-    return houses
+    # # Filtering the data through number of bedrooms
+    # houses = houses[houses.bathrooms <= 7]
+
+    # return houses
 
     # # split the data
     # train, validate, test = split_zillow()
