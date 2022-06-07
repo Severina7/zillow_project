@@ -108,6 +108,8 @@ def wrangle_zillow():
         # If csv file exists read in data from csv file.
         properties_2017 = pd.read_csv('properties_2017.csv', index_col=0)
         
+        return properties_2017
+        
     else:
         
         # Read fresh data from db into a DataFrame
