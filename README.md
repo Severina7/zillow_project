@@ -19,33 +19,52 @@
 ## Project Deliverables
 ### A github repo containing the following:
   - A Readme (.md) file
-    * A project description with goals
-    * An initial hypotheses and/or questions you have of the data, ideas
-    * A data dictionary
-    * A project planning (lay out your process through the data science pipeline)
-    * An instructions or an explanation of how someone else can reproduce your project and findings (What would someone need to be able to recreate your project on their own?)
-    * The key findings, recommendations, and takeaways from your project.
+  
   - A Final Report (.ipynb)
-    * A Report that has filtered out all the extraneous elements not necessary to include in the report.
-    * Use markdown throughout the notebook to guide the audience.
-    * My notebook will begin with a project overview and goals and end with a conclusion that talks about your original goals and how you reached those (or didn't), the key findings, recommendations and next steps.
-    * My work will include at least 4 visualizations in the form of:
-        a. Question in markdown that you want to answer
-        b. The 4 visualization
-        c. At least 2 statistical tests
-        d. Responses in natural language to the questions in my exploration phase
-    * My work will include my 3 best models in the final notebook to review. It will show the steps and code I went through to fit the models, evaluate, and select.
-    * On my best model, I will try to provide a chart visualizing how it performed on test.
+    
   - Acquire & Prepare Modules (.py)
-    * It will contain functions to acquire, prepare and split my data.
-    * My work will be reproducible by someone with their own env.py file.
-    * Each of my functions will be complimented with docstrings.
-    * My functions to acquire and prepare my data will be imported and used in my final report
+
   - My project will also have 1+ non-final Notebooks (.ipynb) created while working on the project
 ### A final presentation
+
 ## Project Context
   - Dataset used came from Codeup database
-  - The project is the first of the Modeling project
+  - The project is the second modeling project and is using regression models and the data processing that goes along with it.
+
+## Data Dictionary
+- Target data: taxvaluedollarcnt renamed tax_value
+    * Content 52441 non-null values
+    * Data type: float64
+    * Definition: It is also called the Assessed value and is the dollar value assigned to a home or other piece of real estate for property tax purposes.
+- Features:
+    bedroomcnt renamed bedrooms, bathroomcnt renamed bathrooms, calculatedfinishedsquarefeet renamed indoor_sqft
+    * bedrooms:
+        - Content: 52442 non-null values
+        - Data type: float64
+        - Definition: This designates the number of bedrooms in each property
+    * bathrooms:
+        - Content: 52442 non-null values
+        - Data type: float64
+        - Definition: This designates the number of bathrooms in each property
+    * indoor_sqft:
+        - Content: 52360 non-null values
+        - Data type: float64
+        - Definition: this is the calculated total finished living area of the home
+Size of the file: 2.8+ MB (safe for export to github)
+
+## Initial Hypotheses
+### First Hypothesis
+- Null hypothesis: $H_{0}$: there is no correlation between the number of bedrooms and the tax value of the properties
+- Alternative hypothesis: $H_{A}$: there is a correlation between the number of bedrooms and the tax value of the properties.
+
+### Second Hypothesis
+- Null hypothesis: $H_{0}$: there is no correlation between the number of bathrooms and the tax value of the properties
+- Alternative hypothesis: $H_{A}$: there is a correlation between the number of bathrooms and the tax value of the properties.
+
+### Third Hypothesis
+- Null hypothesis: $H_{0}$: there is no correlation between the indoor square footage and the tax value of the properties
+- Alternative hypothesis: $H_{A}$: there is a correlation between the indoor square footage and the tax value of the properties.
+
 ## Executive Summary - Conclusions & Next Steps
   - The goal of this project was to build a model that could predict whether a client would churn based on the previous data
   - Only classification models were used (Decision tree, Random Forest, K-Nearest Neighbor, Logistic Regression)
@@ -53,3 +72,15 @@
     * The best model with the features used is the Decision Tree model.
     * Its accuray is 76%  compared to the baseline at 73%
     * Some features prevent churn and are worth examining
+
+Plan
+ Create README.md with data dictionary, project and business goals, come up with initial hypotheses.
+ Acquire data from the Codeup Database and create a function to automate this process. Save the function in an acquire.py file to import into the Final Report Notebook.
+ Clean and prepare data for the first iteration through the pipeline, MVP preparation. Create a function to automate the process, store the function in a prepare.py module, and prepare data in Final Report Notebook by importing and using the funtion.
+ Clearly define two hypotheses, set an alpha, run the statistical tests needed, reject or fail to reject the Null Hypothesis, and document findings and takeaways.
+ Establish a baseline accuracy and document well.
+ Train three different classification models.
+ Evaluate models on train and validate datasets.
+ Choose the model with that performs the best and evaluate that single model on the test dataset.
+ Create csv file with the measurement id, the probability of the target values, and the model's prediction for each observation in my test dataset.
+ Document conclusions, takeaways, and next steps in the Final Report Notebook.
