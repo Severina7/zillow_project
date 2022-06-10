@@ -77,7 +77,7 @@ def get_zillow_data():
 
 ################# Cleaning and splitting the Zillow Data ######################
 
-def wrangle_zillow(houses):
+def wrangle_zillow():
     '''Cleans, and splits Zillow Data for exploration, once acquired'''
 
 # Compiling the code for wrangling data
