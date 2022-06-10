@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 import scipy.stats
 import os
 from env import host, user, password
-# from sklearn.model_selection import train_test_split
-
 
 # Acquiring the Zillow Data
 
@@ -42,27 +41,27 @@ def get_zillow_data():
     return df
 
 
-def get_local_zillow():
-    '''
-    get_local_zillow reads in telco data from Codeup database, writes data to
-    a csv file if a local file does not exist, and returns a DF.
-    '''
-    if os.path.isfile('properties_2017.csv'):
+# def get_local_zillow():
+#     '''
+#     get_local_zillow reads in telco data from Codeup database, writes data to
+#     a csv file if a local file does not exist, and returns a DF.
+#     '''
+#     if os.path.isfile('properties_2017.csv'):
         
-        # If csv file exists read in data from csv file.
-        df = pd.read_csv('properties_2017.csv', index_col=0)
+#         # If csv file exists read in data from csv file.
+#         df = pd.read_csv('properties_2017.csv', index_col=0)
         
-    else:
+#     else:
         
-        # Read fresh data from db into a DataFrame
-        df = get_zillow_data()
+#         # Read fresh data from db into a DataFrame
+#         df = get_zillow_data()
         
-        # Cache data
-        df.to_csv('properties_2017.csv')
+#         # Cache data
+#         df.to_csv('properties_2017.csv')
         
-    return df
+#     return df
 
-# def split_zillow():
+# def split_zillow(df):
 #     '''
 #     Takes in a DataFrame and returns train, validate, and test DataFrames.
 #     '''
@@ -78,7 +77,7 @@ def get_local_zillow():
 
 ################# Cleaning and splitting the Zillow Data ######################
 
-def wrangle_zillow():
+def wrangle_zillow(houses):
     '''Cleans, and splits Zillow Data for exploration, once acquired'''
 
 # Compiling the code for wrangling data
@@ -118,38 +117,35 @@ def wrangle_zillow():
         # Cache data
         properties_2017.to_csv('properties_2017.csv')
 
-        return properties_2017
+    # Dropping null values
+    houses = properties_2017.dropna(axis = 0, how ='any')
 
+    # Dropping 2 columns
+    houses = houses.drop(['propertylandusetypeid'], axis = 1)
+    houses = houses.drop(['transactiondate'], axis = 1)
 
-    # # Dropping null values
-    # houses = properties_2017.dropna(axis = 0, how ='any')
+    # Renaming columns
+    cols_to_rename = {
+        'calculatedfinishedsquarefeet': 'indoor_sqft',
+        'taxvaluedollarcnt': 'tax_value',
+        'bedroomcnt': 'bedrooms',
+        'bathroomcnt': 'bathrooms',
+    }
+    houses = houses.rename(columns=cols_to_rename)
 
-    # # Dropping a column
-    # houses = houses.drop(['propertylandusetypeid'], axis = 1)
+    # Converting the following columns to int
+    houses['bedrooms'] = houses['bedrooms'].astype(int)
+    houses['indoor_sqft'] = houses['indoor_sqft'].astype(int)
+    houses['tax_value'] = houses['tax_value'].astype(int)
 
-    # # Renaming columns
-    # cols_to_rename = {
-    #     'calculatedfinishedsquarefeet': 'indoor_sqft',
-    #     'taxvaluedollarcnt': 'tax_value',
-    #     'transactiondate': 'sale_date',
-    #     'bedroomcnt': 'bedrooms',
-    #     'bathroomcnt': 'bathrooms',
-    # }
+    # Filtering the data through number of bedrooms
+    houses = houses[houses.indoor_sqft <= 7_999]
 
-    # houses = houses.rename(columns=cols_to_rename)
-
-    # # Converting the following columns to int
-    # houses['bedrooms'] = houses['bedrooms'].astype(int)
-    # houses['indoor_sqft'] = houses['indoor_sqft'].astype(int)
-    # houses['tax_value'] = houses['tax_value'].astype(int)
-    # houses['sale_date'] = pd.to_datetime(houses['sale_date']).astype('int64')  
-
-    # # Filtering the data through number of bedrooms
-    # houses = houses[houses.bathrooms <= 7]
-
-    # return houses
-
-    # # split the data
-    # train, validate, test = split_zillow()
-
-    # train, validate, test
+    # splits df into train_validate and test using train_test_split()
+    train_validate, test = train_test_split(houses, test_size=.2, random_state=175)
+    
+    # splits train_validate into train and validate using train_test_split() stratifying on species to get an even mix of each species
+    train, validate = train_test_split(train_validate, 
+                                       test_size=.3, 
+                                       random_state=175)
+    return train, validate, test
