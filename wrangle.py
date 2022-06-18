@@ -68,7 +68,7 @@ def split_zillow(df):
     # splits df into train_validate and test using train_test_split()
     train_validate, test = train_test_split(df, test_size=.2, random_state=175)
     
-    # splits train_validate into train and validate using train_test_split() stratifying on species to get an even mix of each species
+    # splits train_validate into train and validate using train_test_split()
     train, validate = train_test_split(train_validate, 
                                        test_size=.3, 
                                        random_state=175)
@@ -138,10 +138,10 @@ def wrangle_zillow():
     # Filtering the data through number of bedrooms
     houses = houses[houses.indoor_sqft <= 7_999]
 
-    # splits df into train_validate and test using train_test_split()
+    # splits df into train_validate and test using train_test_split(), random state is set so that it is replicable
     train_validate, test = train_test_split(houses, test_size=.2, random_state=175)
 
-    # splits train_validate into train and validate using train_test_split() stratifying on species to get an even mix of each species
+    # splits train_validate into train and validate using train_test_split(), random state is set so that it is replicable
     train, validate = train_test_split(train_validate, 
                                         test_size=.3, 
                                         random_state=175)
